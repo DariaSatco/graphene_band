@@ -1,6 +1,6 @@
 set terminal postscript landscape color enhanced "Times-Roman" 16
 
-set output 'bands.eps'
+set output 'bands_tb.eps'
 
 set autoscale
 
@@ -24,5 +24,5 @@ set zlabel "Energy, eV" font "Times-Roman, 20"
 
 unset key
 
-splot 'graphene_bands.dat' u 1:2:3 with pm3d linewidth 2, \
-'graphene_bands.dat' u 1:2:4 with pm3d linewidth 2
+splot 'graphene_bands_tb.dat' u 1:2:3 with pm3d linewidth 2, \
+'graphene_bands_tb.dat' u 1:2:4 with pm3d linewidth 2

@@ -6,7 +6,7 @@ module energy
     real, parameter :: a = 1.42*1e-10   !C-C bonding length
     real, parameter :: pi = 3.14159
     real, parameter :: e_p = 0.0    !pi-electron energy
-    real, parameter :: delta = 1.0
+    real, parameter :: delta = 0.0
     complex, parameter :: Im_i = cmplx(0.0, 1.0)    !imaginary unity
 
 contains

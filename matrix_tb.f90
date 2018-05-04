@@ -1,4 +1,4 @@
-module matrix
+module matrix_tb
 use energy
     implicit none
 
@@ -36,4 +36,4 @@ contains
 
     end function
 
-end module matrix
+end module matrix_tb
