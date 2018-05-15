@@ -33,11 +33,11 @@ contains
     end do
 
     AsBs = sssigma*g
-    AsBx = spsigma*(-exp(-Im_i*a*kx) + Im_i*sqrt(3.)*exp(Im_i*a*kx/2)*cos(a*sqrt(3.)*ky/2))
+    AsBx = spsigma*(-exp(-Im_i*a*kx) + exp(Im_i*a*kx/2)*cos(a*sqrt(3.)*ky/2))
     AsBy = spsigma*Im_i*sqrt(3.)*exp(Im_i*a*kx/2)*sin(a*sqrt(3.)*ky/2)
     AxBx = ppsigma*exp(-Im_i*a*kx) + (1./2*ppsigma + 3./2*pppi)*exp(Im_i*a*kx/2)*cos(a*sqrt(3.)*ky/2)
     AxBy = sqrt(3.)/2*(ppsigma - pppi)*Im_i*exp(Im_i*a*kx/2)*sin(a*sqrt(3.)*ky/2)
-    AyBy = (3./2*ppsigma - 1./2*pppi)*exp(Im_i*a*kx/2)*cos(a*sqrt(3.)*ky/2)
+    AyBy = (3./2*ppsigma + 1./2*pppi)*exp(Im_i*a*kx/2)*cos(a*sqrt(3.)*ky/2)
     AzBz = pppi*g
 
     M12(1,1) = AsBs
@@ -80,7 +80,9 @@ contains
     complex:: matrix_S_etb(8,8)
     real:: kx, ky
     integer:: i
+    complex:: g
 
+    g = exp(-Im_i*a*kx) + 2*exp(Im_i*a*kx/2)*cos(a*sqrt(3.)*ky/2)
     matrix_S_etb(:,:) = 0.
 
     do i=1,8
