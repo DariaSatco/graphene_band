@@ -4,15 +4,11 @@ set output 'bands_etb_linear.eps'
 
 set autoscale
 
-set ytic aut
+set ytic auto
 
 set xtic auto
 
-# set logscale y
-
-# set logscale x
-
-set xlabel "k, {/Symbol p}/a" font "Times-Roman, 20"
+unset xlabel  #"k, {/Symbol p}/a" font "Times-Roman, 20"
 
 set ylabel "energy, eV" font "Times-Roman, 20"
 

@@ -90,8 +90,8 @@ allocate(energy_band_etb_plot(n,8))
 
 do i = 1,n
 
-    kx(i) = 0. + (i-1)*2*pi/(3*a*n)
-    ky(i) = 0. + kx(i)*2/sqrt(3.)
+    kx(i) = 0. + (i-1)*2*pi/(3*a*(n-1))
+    ky(i) = 0. + kx(i)/sqrt(3.)
 
     matr_H_etb = matrix_H_etb(kx(i),ky(i))
     matr_S_etb = matrix_S_etb(kx(i),ky(i))
@@ -106,7 +106,7 @@ end do
 do i = 1,n
 
     kx(i) = 2*pi/(3*a)
-    ky(i) = 4*pi/(3*sqrt(3.)*a) - (i-1)*4*pi/(3*sqrt(3.)*a*n)
+    ky(i) = 2*pi/(3*sqrt(3.)*a) - i*2*pi/(3*sqrt(3.)*a*n)
 
     matr_H_etb = matrix_H_etb(kx(i),ky(i))
     matr_S_etb = matrix_S_etb(kx(i),ky(i))
@@ -119,7 +119,7 @@ end do
 ! M -> Gamma ==========================
 do i = 1,n
 
-    kx(i) = 2*pi/(3*a) - (i-1)*2*pi/(3*a*n)
+    kx(i) = 2*pi/(3*a) - i*2*pi/(3*a*n)
     ky(i) = 0.
 
     matr_H_etb = matrix_H_etb(kx(i),ky(i))
@@ -134,7 +134,13 @@ end do
 deallocate(kx,ky)
 deallocate(energy_band_tb)
 deallocate(energy_band_etb)
+deallocate(energy_band_etb_plot)
 
+ matr_H_etb = matrix_H_etb(0.,0.)
+
+do i=1,8
+ write(*,*) (matr_H_etb(i,j), j=1,8)
+end do
 close(15)
 close(16)
 close(17)

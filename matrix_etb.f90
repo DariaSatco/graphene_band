@@ -6,7 +6,7 @@ use energy
     real, parameter:: sssigma = -4.3 !eV
     real, parameter:: spsigma = 4.98 !eV
     real, parameter:: ppsigma = 6.38 !eV
-    real, parameter:: pppi = -2.66 !eV
+    real, parameter:: pppi = -2.8 !eV
 
 contains
 
@@ -37,7 +37,7 @@ contains
     AsBy = spsigma*Im_i*sqrt(3.)*exp(Im_i*a*kx/2)*sin(a*sqrt(3.)*ky/2)
     AxBx = ppsigma*exp(-Im_i*a*kx) + (1./2*ppsigma + 3./2*pppi)*exp(Im_i*a*kx/2)*cos(a*sqrt(3.)*ky/2)
     AxBy = sqrt(3.)/2*(ppsigma - pppi)*Im_i*exp(Im_i*a*kx/2)*sin(a*sqrt(3.)*ky/2)
-    AyBy = (3./2*ppsigma + 1./2*pppi)*exp(Im_i*a*kx/2)*cos(a*sqrt(3.)*ky/2)
+    AyBy = pppi*exp(-Im_i*a*kx) + (3./2*ppsigma + 1./2*pppi)*exp(Im_i*a*kx/2)*cos(a*sqrt(3.)*ky/2)
     AzBz = pppi*g
 
     M12(1,1) = AsBs
