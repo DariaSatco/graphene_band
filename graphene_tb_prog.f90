@@ -8,7 +8,7 @@ use matrix_etb
 real, allocatable :: kx(:), ky(:)
 real, allocatable :: energy_band_tb(:,:,:), energy_band_etb(:,:,:), energy_band_etb_plot(:,:)
 integer :: i,j,n
-real :: dk
+real :: dk, kfin
 complex :: matr_H_tb(2,2), matr_S_tb(2,2)
 complex :: matr_H_etb(8,8), matr_S_etb(8,8)
 
@@ -98,8 +98,11 @@ do i = 1,n
 
     call chegv(1, 'N', 'U', 8, matr_H_etb, 8, matr_S_etb, 8, energy_band_etb_plot(i,1:8), work_etb, 100 , rwork_etb, info)
 
-    write(17,100) real(i), kx(i)*a/pi, ky(i)*a/pi, energy_band_etb_plot(i,1:8)
+    write(17,100) sqrt(kx(i)**2+ky(i)**2)*a/pi, kx(i)*a/pi, ky(i)*a/pi, energy_band_etb_plot(i,1:8)
 end do
+
+kfin = sqrt(kx(n)**2+ky(n)**2)*a/pi
+print*, kfin
 
 ! K -> M ===========================
 
@@ -113,8 +116,11 @@ do i = 1,n
 
     call chegv(1, 'N', 'U', 8, matr_H_etb, 8, matr_S_etb, 8, energy_band_etb_plot(i,1:8), work_etb, 100 , rwork_etb, info)
 
-    write(17,100) real(i+n), kx(i)*a/pi, ky(i)*a/pi, energy_band_etb_plot(i,1:8)
+    write(17,100) kfin + (2*pi/(3*sqrt(3.)*a)-ky(i))*a/pi, kx(i)*a/pi, ky(i)*a/pi, energy_band_etb_plot(i,1:8)
 end do
+
+kfin = kfin + 2*pi/(3*sqrt(3.)*a)*a/pi
+print*, kfin
 
 ! M -> Gamma ==========================
 do i = 1,n
@@ -127,20 +133,24 @@ do i = 1,n
 
     call chegv(1, 'N', 'U', 8, matr_H_etb, 8, matr_S_etb, 8, energy_band_etb_plot(i,1:8), work_etb, 100 , rwork_etb, info)
 
-    write(17,100) real(i+2*n), kx(i)*a/pi, ky(i)*a/pi, energy_band_etb_plot(i,1:8)
+    write(17,100) kfin + (2*pi/(3*a)-kx(i))*a/pi, kx(i)*a/pi, ky(i)*a/pi, energy_band_etb_plot(i,1:8)
 end do
 
+kfin = kfin + 2*pi/(3*a)*a/pi
+
+print*, kfin
 
 deallocate(kx,ky)
 deallocate(energy_band_tb)
 deallocate(energy_band_etb)
 deallocate(energy_band_etb_plot)
 
- matr_H_etb = matrix_H_etb(0.,0.)
+!matr_H_etb = matrix_H_etb(0.,0.)
 
-do i=1,8
- write(*,*) (matr_H_etb(i,j), j=1,8)
-end do
+!do i=1,8
+! write(*,*) (matr_H_etb(i,j), j=1,8)
+!end do
+
 close(15)
 close(16)
 close(17)
