@@ -4,6 +4,8 @@ use energy
 
 contains
 
+! Hamiltonian ===============================
+
     function matrix_H(kx, ky)
 
         real:: kx, ky
@@ -19,7 +21,7 @@ contains
 
     end function
 
-!*******************************************
+! Overlap matrix ==============================
 
     function matrix_S(kx, ky)
 

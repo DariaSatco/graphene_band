@@ -6,7 +6,7 @@ set autoscale
 
 set ytic auto
 
-set xtic auto
+set xtics ("{/Symbol G}" 1, "K" 100, "M" 200, "{/Symbol G}" 300)
 
 unset xlabel  #"k, {/Symbol p}/a" font "Times-Roman, 20"
 
