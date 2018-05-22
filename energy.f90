@@ -12,6 +12,7 @@ module energy
 contains
 
     function energy_tb(kx, ky)
+    ! contains analytical expression for TB energy in graphene
 
         real:: kx, ky, g
         real:: energy_tb(2)

@@ -8,11 +8,23 @@ use energy
     real, parameter:: spsigma = 5.5 !eV
     real, parameter:: ppsigma = 5.1 !eV
     real, parameter:: pppi = -3.1 !eV
-    ! overlap
+    ! overlap parameters
     real, parameter:: ov_sssigma = 0.20 !eV
     real, parameter:: ov_spsigma = -0.10 !eV
     real, parameter:: ov_ppsigma = -0.15 !eV
     real, parameter:: ov_pppi = 0.12 !eV
+
+!    real, parameter:: Es = -7.3 !eV on-site energy for s-electrons
+!    real, parameter:: sssigma = -4.3 !eV
+!    real, parameter:: spsigma = 4.98 !eV
+!    real, parameter:: ppsigma = 6.38 !eV
+!    real, parameter:: pppi = -2.66 !eV
+    ! overlap parameters
+!    real, parameter:: ov_sssigma = 0.00 !eV
+!    real, parameter:: ov_spsigma = 0.00 !eV
+!    real, parameter:: ov_ppsigma = 0.0 !eV
+!    real, parameter:: ov_pppi = 0.0 !eV
+
 
 contains
 
