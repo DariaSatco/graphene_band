@@ -1,6 +1,6 @@
 set terminal postscript landscape color enhanced "Times-Roman" 16
 
-set output 'bands_etb_linear1.eps'
+set output 'bands_etb_linear.eps'
 
 set autoscale
 set ytic auto
@@ -13,9 +13,9 @@ set ylabel "energy, eV" font "Times-Roman, 20"
 # set key right top	#set the legend
 
 unset key
-set style line 1 lt 1 lc rgb "#00008b" lw 2 pt 7 ps 1
-set style line 2 lt 0 lc rgb "#a0a0a0" lw 1 pt 7 ps 1
-set style line 3 lt 1 lc rgb "#00ff00" lw 1 pt 1 ps 1
+set style line 1 lt 1 lc rgb "#00008b" lw 4 pt 7 ps 1
+set style line 2 lt 0 lc rgb "#a0a0a0" lw 4 pt 7 ps 1
+set style line 3 lt 1 lc rgb "#00ff00" lw 4 pt 1 ps 1
 
 f(x)=0.0
 
