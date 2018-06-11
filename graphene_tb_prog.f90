@@ -7,6 +7,7 @@ use matrix_tb
 use matrix_etb
 ! matrix_etb.f90 includes hamiltonian and overlap 8x8 matrices, 4-orbital TB
 use vec_mult
+use ordering
 
     implicit none
 
@@ -19,12 +20,12 @@ real, allocatable :: energy_band_tb(:,:,:), energy_band_etb(:,:,:), energy_band_
 
 complex, allocatable :: wf_cnt(:,:,:,:)
 ! wf_cnt - array of wave function coefficients
-complex, allocatable :: norm_matr(:,:,:,:), overlap(:,:,:,:)
+complex, allocatable :: overlap(:,:,:,:)
 
-integer :: i,j,k !counters
+integer :: i,j,l,m !counters
 integer:: np !number of kx, ky points
 integer:: nc, nt, kc, kt !see tubpar.f
-real :: dk, kfin, kt1
+real :: dk, kfin
 ! dk - step in reciprocal space
 ! kfin - additional variable to build path Gamma - K - M - Gamma
 real(8):: kcx,kcy,ktx,kty,ttube !see tubpar.f, ttube <-> t
@@ -62,7 +63,7 @@ open(unit=25, file='cnt_bands_etb.dat', status='replace')
 write(25,150) 'k', 'kx', 'ky', 'energy'
 
 open(unit=26, file='cnt_wf_etb.dat', status='replace')
-write(25,150) 'k', 'kx', 'ky', 'wf1', 'wf2', 'wf3', 'wf4', 'wf5', 'wf6', 'wf7', 'wf8'
+write(26,150) 'k', 'kx', 'ky', 'wf1', 'wf2', 'wf3', 'wf4', 'wf5', 'wf6', 'wf7', 'wf8'
 
 ! n -number of k-points
 np=100
@@ -217,15 +218,14 @@ close(17)
 close(18)
 
 ! ETB for carbon nanotibes =====================================
-call tube_geom(ttube,kcx,kcy,ktx,kty,nc,nt)
+    call tube_geom(ttube,kcx,kcy,ktx,kty,nc,nt)
+
 allocate(energy_band_cnt(nc,nt+1,8))
 allocate(wf_cnt(nc,nt+1,8,8))
 allocate(kx(nt+1),ky(nt+1))
-allocate(norm_matr(nc,nt+1,8,8))
 allocate(overlap(nc,nt+1,8,8))
 
 jobz='V'
-
 
 do kc = 1 - nc/2, nc/2
     do kt = - nt/2, nt/2
@@ -247,33 +247,22 @@ do kc = 1 - nc/2, nc/2
     enddo
 enddo
 
-do kc = 1 - nc/2, nc/2
-    do kt = - nt/2, nt/2
+    call order(nc, nt, energy_band_cnt, wf_cnt)
 
+do kc=1-nc/2, nc/2
+    do kt=-nt/2, nt/2
         ! write energy bands
         write(25,100) kt*sqrt(ktx**2 + kty**2)*ttube, kt*ktx*ttube, kt*kty*ttube, energy_band_cnt(kc,kt,1:8)
 
         ! write wave functions coefficients
         do i=1,8
-            write(26,100) kt*sqrt(ktx**2 + kty**2)*ttube, kx(kt)*ttube, ky(kt)*ttube, wf_cnt(kc,kt,i,1:8)
+           write(26,100) kt*sqrt(ktx**2 + kty**2)*ttube, kx(kt)*ttube, ky(kt)*ttube, wf_cnt(kc,kt,i,1:8)
         end do
-
-        ! check orthogonality
-        call vec_mul(8, wf_cnt(kc,kt,1:8,1:8), wf_cnt(kc,kt,1:8,1:8), overlap(kc,kt,1:8,1:8), norm_matr(kc,kt,1:8,1:8))
     enddo
-
     write(25,*) ' '
     write(26,*) ' '
 enddo
 
-
-do i=1,8
-write(*,100) (real(norm_matr(nc/2,nt/2-5,i,j)), j=1,8)
-enddo
-
-!do i=1,8
-!write(*,100) ((overlap(nc/2,nt/2,i,j)-overlap(nc/2-2,nt/2,i,j)), j=1,8)
-!enddo
 
 close(25)
 close(26)
@@ -282,7 +271,6 @@ deallocate(wf_cnt)
 deallocate(kx,ky)
 deallocate(work, work_etb)
 deallocate(rwork, rwork_etb)
-deallocate(norm_matr)
 deallocate(overlap)
 
 end program graphene_tb_prog
@@ -332,6 +320,8 @@ end program graphene_tb_prog
     !change the units of t to m (it was in nm)
     t=t*1.e-9
     if (mod(nt,2).ne.0) print*, 'nt/2 is odd!'
+    print*, 'nc=', nc
+    print*, 'nt=', nt
 
     return
     end subroutine tube_geom
